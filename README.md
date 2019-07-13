@@ -1,4 +1,4 @@
-# Facwash
+# Facewash
 
 Searches for and removes tracking data injected into JPG files uploaded to facebook.
 
