@@ -4,9 +4,13 @@ import sys
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('directory', help='directory to search and clean')
+group = parser.add_mutually_exclusive_group(required=True)
+group.add_argument('-d', '--directory', metavar='', help='directory to search and clean')
+group.add_argument('-f', '--file', metavar='', help='file to clean')
+parser.add_argument('-r', '--recursive', action='store_true', help='recursively search directory')
 parser.add_argument('-o', '--overwrite', action='store_true', help='replace original files')
 args = parser.parse_args()
+
 
 def open_file(filename):
     with open(filename, 'rb') as f:
@@ -46,9 +50,18 @@ def parse_file(root, filename):
 
 def parse_folder(directory):
     abs_dir = os.path.abspath(directory)
-    for root, subdirs, files in os.walk(abs_dir):
-        for filename in files:
-            if filename.endswith('.jpg'):
-                parse_file(root, filename)
+    if args.recursive:
+        for root, subdirs, files in os.walk(abs_dir):
+            for filename in files:
+                if filename.endswith('.jpg'):
+                    parse_file(root, filename)
+    else:
+        for filename in os.listdir(abs_dir):
+            if not os.path.isdir(filename):
+                if filename.endswith('.jpg'):
+                    parse_file(abs_dir, filename)
 
-parse_folder(args.directory)
+if args.directory:
+    parse_folder(args.directory)
+elif args.file:
+    parse_file(os.path.dirname(args.file), os.path.basename(args.file))
