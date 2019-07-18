@@ -7,15 +7,12 @@ First identified (to my knowledge) by [Edin Jusupovic](https://twitter.com/oasac
 ## Usage
 
 ```
-usage: facewash.py [-h] [-o] directory
-
-positional arguments:
-  directory        directory to search and clean
+usage: facewash.py [-h] (-d  | -f ) [-r] [-o]
 
 optional arguments:
-  -h, --help       show this help message and exit
-  -o, --overwrite  replace original files
-
+  -h, --help         show this help message and exit
+  -d , --directory   directory to search and clean
+  -f , --file        file to clean
+  -r, --recursive    recursively search directory
+  -o, --overwrite    replace original files
 ```
-
-Run `facewash.py` and point it to a directory, and it will work recursively. Cleaned images are saved as new files in the same folders unless the `--overwrite` flag is specified.
